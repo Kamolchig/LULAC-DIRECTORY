@@ -546,7 +546,7 @@ class MembershipHandler(BaseHTTPRequestHandler):
                 state=state,
                 phone=phone,
                 occupation=occupation,
-                additional_info=additional_info,kamila garcia zamora + 34* +kamila garcia 
+                additional_info=additional_info,
             )
             html = self.build_page("My Profile", body, user_id)
             return self.send_html(html)
