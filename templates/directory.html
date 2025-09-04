@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Directory</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>LULAC Membership Portal</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('profile') }}">My Profile</a>
+            <a href="{{ url_for('logout') }}">Logout</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Directorio de miembros</h2>
+        <form method="get" action="{{ url_for('directory') }}" class="filter-form">
+            <label>City:<br><input type="text" name="city" value="{{ request.args.get('city', '') }}"></label>
+            <label>State:<br><input type="text" name="state" value="{{ request.args.get('state', '') }}"></label>
+            <label>Occupation:<br><input type="text" name="occupation" value="{{ request.args.get('occupation', '') }}"></label>
+            <label>Council Number:<br><input type="text" name="council_number" value="{{ request.args.get('council_number', '') }}"></label>
+            <input type="submit" value="Filter">
+            <a href="{{ url_for('directory') }}">Clear</a>
+        </form>
+        <table class="directory">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Area</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Council Number</th>
+                    <th>City</th>
+                    <th>State</th>
+                    <th>Occupation</th>
+                    <th>Additional Information</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                <tr>
+                    <td>{{ user['name'] }}</td>
+                    <td>{{ user['area'] }}</td>
+                    <td>{{ user['email'] }}</td>
+                    <td>{{ user['phone'] }}</td>
+                    <td>{{ user['council_number'] }}</td>
+                    <td>{{ user['city'] }}</td>
+                    <td>{{ user['state'] }}</td>
+                    <td>{{ user['occupation'] }}</td>
+                    <td>{{ user['additional_info'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; {{ current_year }} LULAC</p>
+    </footer>
+</body>
+</html>
