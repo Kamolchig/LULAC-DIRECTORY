@@ -91,6 +91,7 @@ def profile():
     conn = get_db_connection()
     user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
     error = None
+    success = None
     if request.method == 'POST':
         first_name = request.form.get('first_name')
         last_name = request.form.get('last_name')
@@ -102,18 +103,36 @@ def profile():
         state = request.form.get('state')
         occupation = request.form.get('occupation')
         additional_info = request.form.get('additional_info')
+
+        # Cambio de contraseña
+        current_password = request.form.get('current_password')
+        new_password = request.form.get('new_password')
+        confirm_new_password = request.form.get('confirm_new_password')
+
         try:
             conn.execute(
                 '''UPDATE users SET first_name=?, last_name=?, area=?, email=?, phone=?, council_number=?, city=?, state=?, occupation=?, additional_info=?
                    WHERE id=?''',
                 (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, user_id)
             )
+            # Si se intenta cambiar la contraseña
+            if new_password or confirm_new_password or current_password:
+                if not current_password or not new_password or not confirm_new_password:
+                    error = 'To change your password, fill all password fields.'
+                elif not check_password(current_password, user['password_hash']):
+                    error = 'Current password is incorrect.'
+                elif new_password != confirm_new_password:
+                    error = 'New passwords do not match.'
+                else:
+                    new_hash = hash_password(new_password)
+                    conn.execute('UPDATE users SET password_hash=? WHERE id=?', (new_hash, user_id))
+                    success = 'Password updated successfully.'
             conn.commit()
             user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
         except sqlite3.IntegrityError:
             error = 'Email already registered.'
     conn.close()
-    return render_template('profile.html', user=user, error=error)
+    return render_template('profile.html', user=user, error=error, success=success)
 
 @app.route('/directory')
 def directory():

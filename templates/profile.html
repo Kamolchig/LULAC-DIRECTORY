@@ -42,8 +42,23 @@
         <label class="form-label">Additional Information</label>
         <textarea name="additional_info" class="form-control">{{ user['additional_info'] or '' }}</textarea>
     </div>
+    <div class="mb-3">
+        <label class="form-label">Current Password</label>
+        <input type="password" name="current_password" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">New Password</label>
+        <input type="password" name="new_password" class="form-control">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Confirm New Password</label>
+        <input type="password" name="confirm_new_password" class="form-control">
+    </div>
     <button type="submit" class="btn btn-primary">Update Profile</button>
 </form>
+{% if success %}
+  <div class="alert alert-success mt-3">{{ success }}</div>
+{% endif %}
 {% if error %}
   <div class="alert alert-danger mt-3">{{ error }}</div>
 {% endif %}
