@@ -8,7 +8,8 @@
 <form method="get" class="row g-2 mb-3 align-items-center directory-form">
   <div class="col-md-3 d-flex align-items-center">
     <select name="filter_by" class="form-select">
-      <option value="name" {% if request.args.get('filter_by') == 'name' %}selected{% endif %}>Name</option>
+      <option value="first_name" {% if request.args.get('filter_by') == 'first_name' %}selected{% endif %}>First Name</option>
+      <option value="last_name" {% if request.args.get('filter_by') == 'last_name' %}selected{% endif %}>Last Name</option>
       <option value="email" {% if request.args.get('filter_by') == 'email' %}selected{% endif %}>Email</option>
       <option value="area" {% if request.args.get('filter_by') == 'area' %}selected{% endif %}>Area</option>
       <option value="city" {% if request.args.get('filter_by') == 'city' %}selected{% endif %}>City</option>

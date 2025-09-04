@@ -118,6 +118,9 @@ def directory():
         return redirect(url_for('login'))
     filter_by = request.args.get('filter_by', 'first_name')
     query = request.args.get('query', '').strip()
+    allowed_filters = ['first_name', 'last_name', 'email', 'area', 'city', 'state']
+    if filter_by not in allowed_filters:
+        filter_by = 'first_name'
     conn = get_db_connection()
     if query:
         sql = f"SELECT * FROM users WHERE {filter_by} LIKE ?"
