@@ -56,8 +56,11 @@ def register():
         occupation = request.form.get('occupation')
         additional_info = request.form.get('additional_info')
         password = request.form.get('password')
+        confirm_password = request.form.get('confirm_password')
         if not email or not password:
             error = 'Email and password required.'
+        elif password != confirm_password:
+            error = 'Passwords do not match.'
         else:
             password_hash = hash_password(password)
             try:
