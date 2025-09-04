@@ -45,7 +45,8 @@ def login():
 def register():
     error = None
     if request.method == 'POST':
-        name = request.form.get('name')
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
         area = request.form.get('area')
         email = request.form.get('email')
         phone = request.form.get('phone')
@@ -63,9 +64,9 @@ def register():
                 conn = get_db_connection()
                 conn.execute(
                     '''INSERT INTO users
-                       (name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
-                    (name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
+                       (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
+                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                    (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
                 )
                 conn.commit()
                 conn.close()
@@ -88,7 +89,8 @@ def profile():
     user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
     error = None
     if request.method == 'POST':
-        name = request.form.get('name')
+        first_name = request.form.get('first_name')
+        last_name = request.form.get('last_name')
         area = request.form.get('area')
         email = request.form.get('email')
         phone = request.form.get('phone')
@@ -99,9 +101,9 @@ def profile():
         additional_info = request.form.get('additional_info')
         try:
             conn.execute(
-                '''UPDATE users SET name=?, area=?, email=?, phone=?, council_number=?, city=?, state=?, occupation=?, additional_info=?
+                '''UPDATE users SET first_name=?, last_name=?, area=?, email=?, phone=?, council_number=?, city=?, state=?, occupation=?, additional_info=?
                    WHERE id=?''',
-                (name, area, email, phone, council_number, city, state, occupation, additional_info, user_id)
+                (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, user_id)
             )
             conn.commit()
             user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
@@ -114,7 +116,7 @@ def profile():
 def directory():
     if 'user_id' not in session:
         return redirect(url_for('login'))
-    filter_by = request.args.get('filter_by', 'name')
+    filter_by = request.args.get('filter_by', 'first_name')
     query = request.args.get('query', '').strip()
     conn = get_db_connection()
     if query:
