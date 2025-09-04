@@ -124,14 +124,23 @@ def directory():
     allowed_filters = ['first_name', 'last_name', 'email', 'area', 'city', 'state']
     if filter_by not in allowed_filters:
         filter_by = 'first_name'
+    page = int(request.args.get('page', 1))
+    per_page = 10
+    offset = (page - 1) * per_page
+
     conn = get_db_connection()
     if query:
-        sql = f"SELECT * FROM users WHERE {filter_by} LIKE ?"
-        users = conn.execute(sql, (f"%{query}%",)).fetchall()
+        sql = f"SELECT * FROM users WHERE {filter_by} LIKE ? LIMIT ? OFFSET ?"
+        users = conn.execute(sql, (f"%{query}%", per_page, offset)).fetchall()
+        count_sql = f"SELECT COUNT(*) FROM users WHERE {filter_by} LIKE ?"
+        total = conn.execute(count_sql, (f"%{query}%",)).fetchone()[0]
     else:
-        users = conn.execute('SELECT * FROM users').fetchall()
+        users = conn.execute('SELECT * FROM users LIMIT ? OFFSET ?', (per_page, offset)).fetchall()
+        total = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
     conn.close()
-    return render_template('directory.html', users=users)
+
+    total_pages = (total + per_page - 1) // per_page
+    return render_template('directory.html', users=users, page=page, total_pages=total_pages, filter_by=filter_by, query=query)
 
 if __name__ == '__main__':
     app.run(debug=True)
