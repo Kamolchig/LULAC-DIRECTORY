@@ -2,12 +2,13 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(120deg, #f8fafc 0%, #e3f2fd 100%);
+    background: linear-gradient(120deg, #f8fafc 0%, #e0eaf6 100%);
+    /* #e0eaf6 es un azul muy claro, casi blanco */
     color: #333;
 }
 
 header {
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
+    background: linear-gradient(90deg, #0052cc 0%, #357ab7 100%);
     color: white;
     padding: 1rem;
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
@@ -46,7 +47,7 @@ main {
 footer {
     text-align: center;
     padding: 1rem;
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
+    background: linear-gradient(90deg, #0052cc 0%, #357ab7 100%);
     color: white;
     position: fixed;
     bottom: 0;
@@ -124,37 +125,39 @@ form input[type="submit"]:hover {
     align-self: flex-start;
 }
 
-/* Gradiente en el header y footer */
-header.bg-primary {
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
+/* Header y Footer */
+header,
+footer,
+header.bg-primary,
 footer.bg-light {
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
-    color: #fff !important;
-    border-top: none;
+    background: linear-gradient(90deg, #0052cc 0%, #357ab7 100%);
+    /* #357ab7 es un azul más sutil y profesional */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    color: white;
 }
 
 /* Tarjetas y formularios */
 .card {
+    background: rgba(255,255,255,0.97);
     border-radius: 18px;
-    box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-    transition: box-shadow 0.3s;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    transition: box-shadow 0.3s, transform 0.3s;
+    backdrop-filter: blur(4px);
 }
 .card:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.13);
+    transform: translateY(-2px) scale(1.01);
 }
 
 /* Botones animados */
 .btn-primary {
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
+    background: linear-gradient(90deg, #0052cc 0%, #357ab7 100%);
     border: none;
     border-radius: 8px;
     transition: background 0.3s, transform 0.2s;
 }
 .btn-primary:hover {
-    background: linear-gradient(90deg, #00c6ff 0%, #0052cc 100%);
+    background: linear-gradient(90deg, #357ab7 0%, #0052cc 100%);
     transform: scale(1.05);
 }
 
@@ -180,18 +183,58 @@ nav a:hover {
 
 /* Tabla del directorio */
 .table {
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
     box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    background: #fff;
 }
+
 .table-dark th {
-    background: linear-gradient(90deg, #0052cc 0%, #00c6ff 100%);
+    background-color: #0052cc;
     color: #fff;
+    font-weight: 700;
+    border: none;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    padding: 0.75rem;
+    text-align: center;
+    vertical-align: middle;
+}
+
+/* Hover en filas de tabla */
+.table-striped tbody tr:hover {
+    background: #e0eaf6;
+}
+
+.table-bordered th, .table-bordered td {
+    border: 1px solid #e3f2fd;
+}
+
+.table-striped tbody tr {
+    transition: background 0.3s;
+}
+
+.table-striped tbody tr:hover {
+    background: #e3f2fd;
+}
+
+.table td {
+    color: #222;
+    font-size: 0.98rem;
+    vertical-align: middle;
+    padding: 0.7rem;
+}
+
+.table th:first-child, .table td:first-child {
+    padding-left: 1.2rem;
+}
+.table th:last-child, .table td:last-child {
+    padding-right: 1.2rem;
 }
 
 /* Fondo general */
 body {
-    background: linear-gradient(120deg, #f8fafc 0%, #e3f2fd 100%);
+    background: linear-gradient(120deg, #f8fafc 0%, #e0eaf6 100%);
 }
 
 /* Títulos */

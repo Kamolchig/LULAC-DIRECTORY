@@ -114,8 +114,14 @@ def profile():
 def directory():
     if 'user_id' not in session:
         return redirect(url_for('login'))
+    filter_by = request.args.get('filter_by', 'name')
+    query = request.args.get('query', '').strip()
     conn = get_db_connection()
-    users = conn.execute('SELECT * FROM users').fetchall()
+    if query:
+        sql = f"SELECT * FROM users WHERE {filter_by} LIKE ?"
+        users = conn.execute(sql, (f"%{query}%",)).fetchall()
+    else:
+        users = conn.execute('SELECT * FROM users').fetchall()
     conn.close()
     return render_template('directory.html', users=users)
 
