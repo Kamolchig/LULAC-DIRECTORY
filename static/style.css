@@ -200,3 +200,35 @@ h2, .card-title {
     color: #0052cc;
     letter-spacing: 1px;
 }
+
+body.dark-mode {
+    background: linear-gradient(120deg, #232526 0%, #414345 100%);
+    color: #eee;
+}
+body.dark-mode main {
+    background: #222;
+    color: #eee;
+}
+body.dark-mode .card {
+    background: rgba(40,40,40,0.95);
+    color: #eee;
+}
+body.dark-mode header, body.dark-mode footer {
+    background: linear-gradient(90deg, #232526 0%, #414345 100%);
+}
+
+.btn-primary.clicked {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 4px #00c6ff44;
+}
+
+.loader-spin {
+    border: 6px solid #e3f2fd;
+    border-top: 6px solid #0052cc;
+    border-radius: 50%;
+    width: 48px; height: 48px;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin {
+    to { transform: rotate(360deg);}
+}

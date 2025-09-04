@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div id="loader" style="position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(255,255,255,0.7);display:flex;align-items:center;justify-content:center;z-index:9999;">
+      <div class="loader-spin"></div>
+    </div>
     <header class="bg-primary text-white py-3 mb-4">
         <div class="container d-flex align-items-center justify-content-between">
             <h1 class="h4 mb-0">LULAC Membership Portal</h1>
@@ -34,5 +37,6 @@
             <small>&copy; {{ current_year if current_year else '' }} LULAC</small>
         </div>
     </footer>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
