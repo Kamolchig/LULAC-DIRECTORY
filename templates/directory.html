@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold" style="color:#0052cc; letter-spacing:1px;">
+    <i class="bi bi-people-fill me-2"></i>Member Directory
+  </h2>
+</div>
+<form method="get" class="row g-2 mb-3 align-items-center directory-form">
+  <div class="col-md-3 d-flex align-items-center">
+    <select name="filter_by" class="form-select">
+      <option value="first_name" {% if request.args.get('filter_by') == 'first_name' %}selected{% endif %}>First Name</option>
+      <option value="last_name" {% if request.args.get('filter_by') == 'last_name' %}selected{% endif %}>Last Name</option>
+      <option value="email" {% if request.args.get('filter_by') == 'email' %}selected{% endif %}>Email</option>
+      <option value="area" {% if request.args.get('filter_by') == 'area' %}selected{% endif %}>Area</option>
+      <option value="city" {% if request.args.get('filter_by') == 'city' %}selected{% endif %}>City</option>
+      <option value="state" {% if request.args.get('filter_by') == 'state' %}selected{% endif %}>State</option>
+    </select>
+  </div>
+  <div class="col-md-5 d-flex align-items-center">
+    <input type="text" name="query" class="form-control" placeholder="Search..." value="{{ request.args.get('query', '') }}">
+  </div>
+  <div class="col-md-4 d-flex justify-content-end align-items-center gap-2">
+    <button type="submit" class="btn btn-primary px-4">Filter</button>
+    <a href="{{ url_for('directory') }}" class="btn btn-outline-secondary px-4">Clear Filters</a>
+  </div>
+</form>
+<table class="table table-striped table-bordered">
+    <thead class="table-dark">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Area</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Council Number</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Occupation</th>
+            <th>Additional Information</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for user in users %}
+        <tr>
+            <td>{{ user['first_name'] }}</td>
+            <td>{{ user['last_name'] }}</td>
+            <td>{{ user['area'] }}</td>
+            <td>{{ user['email'] }}</td>
+            <td>{{ user['phone'] }}</td>
+            <td>{{ user['council_number'] }}</td>
+            <td>{{ user['city'] }}</td>
+            <td>{{ user['state'] }}</td>
+            <td>{{ user['occupation'] }}</td>
+            <td>{{ user['additional_info'] }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<nav aria-label="User directory pagination">
+  <ul class="pagination justify-content-center">
+    {% if page > 1 %}
+      <li class="page-item">
+        <a class="page-link"
+           href="{{ url_for('directory', filter_by=filter_by, query=query, page=page-1) }}">Previous</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Previous</span></li>
+    {% endif %}
+    {% for p in range(1, total_pages + 1) %}
+      <li class="page-item {% if p == page %}active{% endif %}">
+        <a class="page-link"
+           href="{{ url_for('directory', filter_by=filter_by, query=query, page=p) }}">{{ p }}</a>
+      </li>
+    {% endfor %}
+    {% if page < total_pages %}
+      <li class="page-item">
+        <a class="page-link"
+           href="{{ url_for('directory', filter_by=filter_by, query=query, page=page+1) }}">Next</a>
+      </li>
+    {% else %}
+      <li class="page-item disabled"><span class="page-link">Next</span></li>
+    {% endif %}
+  </ul>
+</nav>
+{% endblock %}
