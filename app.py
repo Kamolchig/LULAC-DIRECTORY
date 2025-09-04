@@ -1,15 +1,16 @@
-import sqlite3
+import os
 import hashlib
 from flask import Flask, render_template, request, redirect, url_for, session
 from datetime import datetime
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 app = Flask(__name__)
 app.secret_key = 'change_this_to_a_secure_random_value'
-DATABASE = 'membership.db'
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
 def get_db_connection():
-    conn = sqlite3.connect(DATABASE)
-    conn.row_factory = sqlite3.Row
+    conn = psycopg2.connect(DATABASE_URL, cursor_factory=RealDictCursor)
     return conn
 
 def hash_password(password: str) -> str:
@@ -33,7 +34,8 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
         conn = get_db_connection()
-        user = conn.execute('SELECT * FROM users WHERE email = ?', (email,)).fetchone()
+        # LOGIN
+        user = conn.execute('SELECT * FROM users WHERE email = %s', (email,)).fetchone()
         conn.close()
         if user and check_password(password, user['password_hash']):
             session['user_id'] = user['id']
@@ -65,16 +67,17 @@ def register():
             password_hash = hash_password(password)
             try:
                 conn = get_db_connection()
+                # REGISTER
                 conn.execute(
                     '''INSERT INTO users
                        (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
-                       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)''',
+                       VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)''',
                     (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, password_hash)
                 )
                 conn.commit()
                 conn.close()
                 return redirect(url_for('login'))
-            except sqlite3.IntegrityError:
+            except psycopg2.IntegrityError:
                 error = 'Email already registered.'
     return render_template('register.html', error=error)
 
@@ -89,7 +92,7 @@ def profile():
         return redirect(url_for('login'))
     user_id = session['user_id']
     conn = get_db_connection()
-    user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
+    user = conn.execute('SELECT * FROM users WHERE id = %s', (user_id,)).fetchone()
     error = None
     success = None
     if request.method == 'POST':
@@ -110,9 +113,10 @@ def profile():
         confirm_new_password = request.form.get('confirm_new_password')
 
         try:
+            # PROFILE
             conn.execute(
-                '''UPDATE users SET first_name=?, last_name=?, area=?, email=?, phone=?, council_number=?, city=?, state=?, occupation=?, additional_info=?
-                   WHERE id=?''',
+                '''UPDATE users SET first_name=%s, last_name=%s, area=%s, email=%s, phone=%s, council_number=%s, city=%s, state=%s, occupation=%s, additional_info=%s
+                   WHERE id=%s''',
                 (first_name, last_name, area, email, phone, council_number, city, state, occupation, additional_info, user_id)
             )
             # Si se intenta cambiar la contraseña
@@ -125,11 +129,11 @@ def profile():
                     error = 'New passwords do not match.'
                 else:
                     new_hash = hash_password(new_password)
-                    conn.execute('UPDATE users SET password_hash=? WHERE id=?', (new_hash, user_id))
+                    conn.execute('UPDATE users SET password_hash=%s WHERE id=%s', (new_hash, user_id))
                     success = 'Password updated successfully.'
             conn.commit()
-            user = conn.execute('SELECT * FROM users WHERE id = ?', (user_id,)).fetchone()
-        except sqlite3.IntegrityError:
+            user = conn.execute('SELECT * FROM users WHERE id = %s', (user_id,)).fetchone()
+        except psycopg2.IntegrityError:
             error = 'Email already registered.'
     conn.close()
     return render_template('profile.html', user=user, error=error, success=success)
@@ -149,13 +153,14 @@ def directory():
 
     conn = get_db_connection()
     if query:
-        sql = f"SELECT * FROM users WHERE {filter_by} LIKE ? LIMIT ? OFFSET ?"
+        # DIRECTORY
+        sql = f"SELECT * FROM users WHERE {filter_by} LIKE %s LIMIT %s OFFSET %s"
         users = conn.execute(sql, (f"%{query}%", per_page, offset)).fetchall()
-        count_sql = f"SELECT COUNT(*) FROM users WHERE {filter_by} LIKE ?"
-        total = conn.execute(count_sql, (f"%{query}%",)).fetchone()[0]
+        count_sql = f"SELECT COUNT(*) FROM users WHERE {filter_by} LIKE %s"
+        total = conn.execute(count_sql, (f"%{query}%",)).fetchone()['count']
     else:
-        users = conn.execute('SELECT * FROM users LIMIT ? OFFSET ?', (per_page, offset)).fetchall()
-        total = conn.execute('SELECT COUNT(*) FROM users').fetchone()[0]
+        users = conn.execute('SELECT * FROM users LIMIT %s OFFSET %s', (per_page, offset)).fetchall()
+        total = conn.execute('SELECT COUNT(*) FROM users').fetchone()['count']
     conn.close()
 
     total_pages = (total + per_page - 1) // per_page
