@@ -1,43 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('directory') }}">Directory</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
-        </nav>
-    </header>
-    <main>
-        {% extends "base.html" %}
-        {% block content %}
-        <h2>My Profile</h2>
-        <form method="post" action="{{ url_for('profile') }}">
-            <label>Name:<br><input type="text" name="name" value="{{ user['name'] or '' }}" required></label>
-            <label>Area:<br><input type="text" name="area" value="{{ user['area'] or '' }}"></label>
-            <label>Email:<br><input type="email" name="email" value="{{ user['email'] or '' }}" required></label>
-            <label>Phone:<br><input type="text" name="phone" value="{{ user['phone'] or '' }}"></label>
-            <label>Council Number:<br><input type="number" name="council_number" value="{{ user['council_number'] or '' }}"></label>
-            <label>City:<br><input type="text" name="city" value="{{ user['city'] or '' }}"></label>
-            <label>State:<br><input type="text" name="state" value="{{ user['state'] or '' }}"></label>
-            <label>Occupation:<br><input type="text" name="occupation" value="{{ user['occupation'] or '' }}"></label>
-            <label>Additional Information:<br><textarea name="additional_info">{{ user['additional_info'] or '' }}</textarea></label>
-            <input type="submit" value="Update Profile">
-        </form>
-        {% if error %}
-          <div style="color: red;">{{ error }}</div>
-        {% endif %}
-        {% endblock %}
-    </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<h2>My Profile</h2>
+<form method="post" action="{{ url_for('profile') }}">
+    <div class="mb-3">
+        <label class="form-label">First Name</label>
+        <input type="text" name="first_name" class="form-control" value="{{ user['first_name'] or '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Last Name</label>
+        <input type="text" name="last_name" class="form-control" value="{{ user['last_name'] or '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Area</label>
+        <input type="text" name="area" class="form-control" value="{{ user['area'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input type="email" name="email" class="form-control" value="{{ user['email'] or '' }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" name="phone" class="form-control" value="{{ user['phone'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Council Number</label>
+        <input type="number" name="council_number" class="form-control" value="{{ user['council_number'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">City</label>
+        <input type="text" name="city" class="form-control" value="{{ user['city'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">State</label>
+        <input type="text" name="state" class="form-control" value="{{ user['state'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Occupation</label>
+        <input type="text" name="occupation" class="form-control" value="{{ user['occupation'] or '' }}">
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Additional Information</label>
+        <textarea name="additional_info" class="form-control">{{ user['additional_info'] or '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+{% if error %}
+  <div class="alert alert-danger mt-3">{{ error }}</div>
+{% endif %}
+{% endblock %}

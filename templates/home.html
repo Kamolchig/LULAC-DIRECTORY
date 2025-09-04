@@ -1,36 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - LULAC Membership Portal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('directory') }}">Directory</a>
-            <a href="{{ url_for('profile') }}">My Profile</a>
-        </nav>
-    </header>
-    <main>
-        {% extends "base.html" %}
-        {% block content %}
-        <h2>Welcome to LULAC Membership Portal</h2>
-        <p>
-            <strong>The Mission of the League of United Latin American Citizens</strong> is to advance the economic condition, educational attainment, political influence, housing, health, and civil rights of the Hispanic population of the United States.
-        </p>
-        {% if not session.get('user_id') %}
-            <p>Please log in or register to access member features.</p>
-            <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
-        {% endif %}
-        {% endblock %}
-    </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="card shadow-lg mb-4" style="border-radius: 18px;">
+  <div class="card-body">
+    <div class="d-flex align-items-center mb-3">
+      <span class="me-3" style="font-size:2.5rem; color:#0052cc;">
+        <i class="bi bi-people-fill"></i>
+      </span>
+      <h2 class="card-title mb-0" style="font-weight:800; color:#0052cc;">
+        Welcome to <span style="background: linear-gradient(90deg, #0052cc, #00c6ff); -webkit-background-clip: text; color: transparent;">LULAC Membership Portal</span>
+      </h2>
+    </div>
+    <p class="card-text fs-5">
+      <strong>The Mission of the League of United Latin American Citizens</strong> is to advance the economic condition, educational attainment, political influence, housing, health, and civil rights of the Hispanic population of the United States.
+    </p>
+    {% if not session.get('user_id') %}
+      <p class="mt-3">Please log in or register to access member features.</p>
+      <a href="{{ url_for('login') }}" class="btn btn-primary me-2">Login</a>
+      <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Register</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

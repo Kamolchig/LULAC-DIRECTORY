@@ -6,7 +6,8 @@ c = conn.cursor()
 c.execute('''
     CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
+        first_name TEXT NOT NULL,
+        last_name TEXT NOT NULL,
         area TEXT,
         email TEXT UNIQUE NOT NULL,
         phone TEXT,
@@ -20,4 +21,4 @@ c.execute('''
 ''')
 conn.commit()
 conn.close()
-print("Database initialized.")
+print("Database initialized with first_name and last_name.")
