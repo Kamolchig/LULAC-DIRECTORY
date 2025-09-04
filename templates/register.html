@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - LULAC Membership Portal</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>LULAC Membership Portal</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+            <a href="{{ url_for('directory') }}">Directory</a>
+        </nav>
+    </header>
+    <main>
+        <h2>Create Account</h2>
+        <form method="post" action="{{ url_for('register') }}">
+            <label>Name:<br><input type="text" name="name" required></label><br>
+            <label>Area:<br><input type="text" name="area"></label><br>
+            <label>Email:<br><input type="email" name="email" required></label><br>
+            <label>Phone:<br><input type="text" name="phone"></label><br>
+            <label>Council Number:<br><input type="number" name="council_number"></label><br>
+            <label>City:<br><input type="text" name="city"></label><br>
+            <label>State:<br><input type="text" name="state"></label><br>
+            <label>Occupation:<br><input type="text" name="occupation"></label><br>
+            <label>Additional Information:<br><textarea name="additional_info"></textarea></label><br>
+            <label>Password:<br><input type="password" name="password" required></label><br>
+            <input type="submit" value="Create Account">
+        </form>
+        {% if error %}
+          <div style="color: red;">{{ error }}</div>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; {{ current_year }} LULAC</p>
+    </footer>
+</body>
+</html>
