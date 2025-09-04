@@ -1,59 +1,62 @@
 # LULAC Membership Portal
 
-This repository contains a Flask-based membership portal designed for the League of United Latin American Citizens (LULAC). The application provides a secure, password-protected website where members can register, log in, manage their contact information, and browse a directory of other members.
+Portal web para la gestión de miembros de LULAC, desarrollado con Flask y PostgreSQL.
 
-## Features
+## Características
 
-* **Account Creation:** Prospective members can register with an email, password, and optional fields such as name, council number, city, state, phone, occupation, and additional notes.
-* **Authentication:** Registered users can log in and log out. Passwords are securely hashed for protection.
-* **Profile Management:** Logged-in members can view and update their personal information at any time.
-* **Member Directory:** Once authenticated, members can browse a directory of all registered users, with filtering options for city, state, occupation, and council number.
-* **Session Management:** User sessions are managed securely using Flask's session handling.
+- Registro y autenticación de usuarios
+- Directorio de miembros con filtros y paginación
+- Edición de perfil y cambio de contraseña
+- Interfaz moderna y responsiva con Bootstrap
+- Base de datos PostgreSQL en la nube (Render)
 
-## Running the Application
+## Instalación local
 
-1. Ensure you have Python 3 installed.
-2. Create a virtual environment and activate it:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+1. Clona el repositorio:
    ```
-3. Install the required dependencies:
-   ```bash
+   git clone https://github.com/tu-usuario/LULAC-DIRECTORY.git
+   cd LULAC-DIRECTORY
+   ```
+
+2. Instala dependencias:
+   ```
    pip install -r requirements.txt
    ```
-4. Run the application:
-   ```bash
-   python app.py
+
+3. Configura la variable de entorno `DATABASE_URL` con la URL de tu base PostgreSQL.
+
+4. Ejecuta la aplicación:
    ```
-5. Open your web browser and navigate to `http://localhost:5000` to access the membership portal.
+   flask run
+   ```
 
-## File Structure
+## Despliegue en Render
 
+1. Sube tu código a GitHub.
+2. Crea una base de datos PostgreSQL en Render y copia la `DATABASE_URL`.
+3. Crea un nuevo servicio web en Render y conecta tu repositorio.
+4. Agrega la variable de entorno `DATABASE_URL` en la configuración del servicio.
+5. Render instalará dependencias y levantará tu app automáticamente.
+
+## Estructura de la base de datos
+
+```sql
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    area TEXT,
+    email TEXT UNIQUE NOT NULL,
+    phone TEXT,
+    council_number INTEGER,
+    city TEXT,
+    state TEXT,
+    occupation TEXT,
+    additional_info TEXT,
+    password_hash TEXT NOT NULL
+);
 ```
-lulac-membership-portal/
-├── app.py                # Main application code for the Flask web application
-├── requirements.txt      # Dependencies required for the project
-├── membership.db         # SQLite database for storing user information and sessions
-├── static/
-│   └── style.css         # CSS styles for the application
-├── templates/
-│   ├── base.html         # Base template for the application
-│   ├── home.html         # Template for the home page
-│   ├── login.html        # Template for the login page
-│   ├── register.html     # Template for the registration page
-│   ├── profile.html      # Template for the user profile page
-│   └── directory.html     # Template for the member directory page
-└── README.md             # Documentation for the project
-```
 
-## Customization Notes
+## Créditos
 
-* **Security:** Ensure to implement secure password hashing and consider using HTTPS for production.
-* **Styling:** The CSS file can be customized to match LULAC branding or to integrate frameworks like Bootstrap.
-* **Database Management:** The SQLite database file `membership.db` will be created automatically on the first run. To reset the database, delete this file and restart the application.
-
-## Limitations
-
-* This application is intended for demonstration purposes and may lack advanced security features. Use caution if deploying in a public environment.
-* For larger organizations or complex requirements, consider a full-featured membership management system.
+Programado por **Kamila G**
