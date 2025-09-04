@@ -4,27 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}LULAC Membership Portal{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            {% if user %}
-                <a href="{{ url_for('directory') }}">Directory</a>
-                <a href="{{ url_for('profile') }}">My Profile</a>
-                <a href="{{ url_for('logout') }}">Logout</a>
-            {% else %}
-                <a href="{{ url_for('login') }}">Login</a>
-                <a href="{{ url_for('register') }}">Register</a>
-            {% endif %}
-        </nav>
+    <header class="bg-primary text-white py-3 mb-4">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="h4 mb-0">LULAC Membership Portal</h1>
+            <nav>
+                <a class="text-white me-3" href="{{ url_for('home') }}">Home</a>
+                {% if session.get('user_id') %}
+                    <a class="text-white me-3" href="{{ url_for('directory') }}">Directory</a>
+                    <a class="text-white me-3" href="{{ url_for('profile') }}">My Profile</a>
+                    <a class="text-white" href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a class="text-white me-3" href="{{ url_for('login') }}">Login</a>
+                    <a class="text-white" href="{{ url_for('register') }}">Register</a>
+                {% endif %}
+            </nav>
+        </div>
     </header>
-    <main>
+
+    <main class="container">
         {% block content %}{% endblock %}
     </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
+
+    <footer class="bg-light text-center py-3 mt-4">
+        <div class="container">
+            <small>&copy; {{ current_year if current_year else '' }} LULAC</small>
+        </div>
     </footer>
 </body>
 </html>

@@ -17,23 +17,57 @@
         </nav>
     </header>
     <main>
-        <h2>Create Account</h2>
-        <form method="post" action="{{ url_for('register') }}">
-            <label>Name:<br><input type="text" name="name" required></label><br>
-            <label>Area:<br><input type="text" name="area"></label><br>
-            <label>Email:<br><input type="email" name="email" required></label><br>
-            <label>Phone:<br><input type="text" name="phone"></label><br>
-            <label>Council Number:<br><input type="number" name="council_number"></label><br>
-            <label>City:<br><input type="text" name="city"></label><br>
-            <label>State:<br><input type="text" name="state"></label><br>
-            <label>Occupation:<br><input type="text" name="occupation"></label><br>
-            <label>Additional Information:<br><textarea name="additional_info"></textarea></label><br>
-            <label>Password:<br><input type="password" name="password" required></label><br>
-            <input type="submit" value="Create Account">
-        </form>
-        {% if error %}
-          <div style="color: red;">{{ error }}</div>
-        {% endif %}
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-body">
+                <h2 class="card-title mb-4">Register</h2>
+                <form method="post" action="{{ url_for('register') }}">
+                    <div class="mb-3">
+                        <label class="form-label">Name</label>
+                        <input type="text" name="name" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Area</label>
+                        <input type="text" name="area" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Phone</label>
+                        <input type="text" name="phone" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Council Number</label>
+                        <input type="number" name="council_number" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">City</label>
+                        <input type="text" name="city" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">State</label>
+                        <input type="text" name="state" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Occupation</label>
+                        <input type="text" name="occupation" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Information</label>
+                        <textarea name="additional_info" class="form-control"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Register</button>
+                </form>
+                {% if error %}
+                    <div class="alert alert-danger mt-3">{{ error }}</div>
+                {% endif %}
+            </div>
+        </div>
     </main>
     <footer>
         <p>&copy; {{ current_year }} LULAC</p>
