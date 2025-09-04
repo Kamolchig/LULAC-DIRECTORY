@@ -1,40 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home - LULAC Membership Portal</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('directory') }}">Directory</a>
-            <a href="{{ url_for('profile') }}">My Profile</a>
-        </nav>
-    </header>
-    <main>
-        {% extends "base.html" %}
-        {% block content %}
-        <div class="card mb-4">
-          <div class="card-body">
-            <h2 class="card-title">Welcome to LULAC Membership Portal</h2>
-            <p class="card-text">
-              <strong>The Mission of the League of United Latin American Citizens</strong> is to advance the economic condition, educational attainment, political influence, housing, health, and civil rights of the Hispanic population of the United States.
-            </p>
-            {% if not session.get('user_id') %}
-              <p>Please log in or register to access member features.</p>
-              <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
-            {% endif %}
-          </div>
-        </div>
-        {% endblock %}
-    </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h2 class="card-title">Welcome to LULAC Membership Portal</h2>
+    <p class="card-text">
+      <strong>The Mission of the League of United Latin American Citizens</strong> is to advance the economic condition, educational attainment, political influence, housing, health, and civil rights of the Hispanic population of the United States.
+    </p>
+    {% if not session.get('user_id') %}
+      <p>Please log in or register to access member features.</p>
+      <a href="{{ url_for('login') }}">Login</a> | <a href="{{ url_for('register') }}">Register</a>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

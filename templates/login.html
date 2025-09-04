@@ -1,32 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - LULAC Membership Portal</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('register') }}">Register</a>
-        </nav>
-    </header>
-    <main>
-        <h2>Login</h2>
-        <form method="post" action="{{ url_for('login') }}">
-            <label>Email:<br><input type="email" name="email" required></label><br>
-            <label>Password:<br><input type="password" name="password" required></label><br>
-            <input type="submit" value="Log In">
-        </form>
-        {% if error %}
-          <div style="color: red; margin-bottom: 1em;">{{ error }}</div>
-        {% endif %}
-    </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
-    </footer>
-</body>
-</html>
+{% extends "base.html" %}
+{% block content %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h2 class="card-title mb-3">Login</h2>
+    <form method="post">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="email" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      {% if error %}
+        <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+      <button type="submit" class="btn btn-primary w-100">Log In</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

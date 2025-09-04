@@ -1,76 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Account - LULAC Membership Portal</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>LULAC Membership Portal</h1>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('login') }}">Login</a>
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('directory') }}">Directory</a>
-        </nav>
-    </header>
-    <main>
-        <div class="card mx-auto" style="max-width: 500px;">
-            <div class="card-body">
-                <h2 class="card-title mb-4">Register</h2>
-                <form method="post" action="{{ url_for('register') }}">
-                    <div class="mb-3">
-                        <label class="form-label">Name</label>
-                        <input type="text" name="name" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Area</label>
-                        <input type="text" name="area" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Phone</label>
-                        <input type="text" name="phone" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Council Number</label>
-                        <input type="number" name="council_number" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">City</label>
-                        <input type="text" name="city" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">State</label>
-                        <input type="text" name="state" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Occupation</label>
-                        <input type="text" name="occupation" class="form-control">
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Additional Information</label>
-                        <textarea name="additional_info" class="form-control"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Password</label>
-                        <input type="password" name="password" class="form-control" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Register</button>
-                </form>
-                {% if error %}
-                    <div class="alert alert-danger mt-3">{{ error }}</div>
-                {% endif %}
+{% extends "base.html" %}
+{% block content %}
+<div class="card mx-auto mt-4" style="max-width: 500px;">
+    <div class="card-body">
+        <h2 class="card-title mb-4 text-center">Register</h2>
+        <form method="post" action="{{ url_for('register') }}">
+            <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input type="text" name="name" class="form-control" required>
             </div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; {{ current_year }} LULAC</p>
-    </footer>
-</body>
-</html>
+            <div class="mb-3">
+                <label class="form-label">Area</label>
+                <input type="text" name="area" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input type="email" name="email" class="form-control" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Phone</label>
+                <input type="text" name="phone" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Council Number</label>
+                <input type="number" name="council_number" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">City</label>
+                <input type="text" name="city" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">State</label>
+                <input type="text" name="state" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Occupation</label>
+                <input type="text" name="occupation" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Additional Information</label>
+                <textarea name="additional_info" class="form-control"></textarea>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" name="password" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Register</button>
+        </form>
+        {% if error %}
+            <div class="alert alert-danger mt-3">{{ error }}</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
